@@ -1,2 +1,2 @@
 # conf & dot files
-yeah, that's it for now!
+this is where i put my dotfiles and config files taht you can also use if you'd like
