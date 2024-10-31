@@ -1,31 +1,41 @@
+local options = {
+    nu = true,
+    relativenumber = true,
 
-vim.opt.nu = true
-vim.opt.relativenumber = true
+    tabstop = 4,
+    softtabstop = 4,
+    shiftwidth = 4,
+    expandtab = true,
+    smartindent = true,
+    wrap = false,
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
 
-vim.opt.smartindent = true
 
-vim.opt.wrap = false
 
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
 
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
+    scrolloff = 8, --set margin for vert scroll
+    --vim.opt.colorcolumn = "80"
+    timeoutlen = 200,
 
-vim.opt.termguicolors = true
 
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
 
-vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+    --------------- no need to set because it's default ---------------
+    -- vim.opt.hlsearch = true
+    -- vim.opt.incsearch = true -- incremental search
+
+
+
+    --------------- don't know what are these things below :/ ------------
+    -- vim.opt.isfname:append("@-@")
+    updatetime = 500,
+    termguicolors = true,
+    --vim.opt.swapfile = false
+    --vim.opt.backup = false
+    undodir = os.getenv("HOME") .. "/.vim/undodir",
+    undofile = true
+}
+for k, v in pairs(options) do
+    vim.opt[k] = v
+end
 
