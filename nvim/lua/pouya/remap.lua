@@ -1,59 +1,69 @@
-
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+local function map(mode, x, y)
+    vim.keymap.set(mode, x, y)
+end
+local maps = {
+    {"n", "<leader>e", ":Lex<cr>"},
+    {"n", "<leader>q", ":q<cr>"},
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+    -- motions
+    {"n", "<c-h>", "<c-w>h"},
+    {"n", "<c-l>", "<c-w>l"},
+    {"n", "<c-k>", "<c-w>k"},
+    {"n", "<c-j>", "<c-w>j"},
 
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+    -- resize splits
+    {"n", "<c-up>", ":resize -2<cr>"},
+    {"n", "<c-down>", ":resize +2<cr>"},
+    {"n", "<c-left>", ":vertical resize -2<cr>"},
+    {"n", "<c-right>", ":vertical resize +2<cr>"},
 
-vim.keymap.set("n", "<leader>vwm", function()
-    require("vim-with-me").StartVimWithMe()
-end)
-vim.keymap.set("n", "<leader>svwm", function()
-    require("vim-with-me").StopVimWithMe()
-end)
+    {{"i", "v", "c"}, "jk", "<esc>"},
 
--- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+    -- move btw tabs?
+    {"n", "<s-l>", ":bnext<cr>"},
+    {"n", "<s-h>", ":bprevious<cr>"},
 
--- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+    {"v", "J", ":m '>+1<CR>gv=gv"},
+    {"v", "K", ":m '<-2<CR>gv=gv"},
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+    {"v", "p", [["_dP]]},
+    {{"n", "v"}, "<leader>y", [["+y]]},
 
--- This is going to get me cancelled
-vim.keymap.set("i", "<C-c>", "<Esc>")
+    --{"n", "<leader>3", "<cmd>w<cr><cmd>vert bel term g++ -ggdb -std=c++17 -DLOCAL -O2 %:~ -o %:p:r && %:~:r < %:~:h/inp <CR>"}
+}
+for i, v in pairs(maps) do
+    map(v[1], v[2], v[3])
+end
 
-vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+--vim.api.nvim_create_user_command(
+    --"Cptmp",
+    --"!cat ~/cptmp1.cpp> %",
+    --{ nargs = 0}
+--)
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+-------------------- don't know about these things below --------------
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+--map("n", "J", "mzJ`z")
+--map("n", "<C-d>", "<C-d>zz")
+--map("n", "<C-u>", "<C-u>zz")
+--map("n", "n", "nzzzv")
+--map("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>");
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
+map("n", "<leader>Y", [["+Y]])
+map({"n", "v"}, "<leader>d", [["_d]])
 
-vim.keymap.set("n", "<leader>cpp", "<cmd>!g++ -fsanitize=address -std=c++17 -DONPC -O2 -o %< % && %< < inp <CR>")
+--map("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+--map("n", "<leader>f", vim.lsp.buf.format)
 
+--map("n", "<C-k>", "<cmd>cnext<CR>zz")
+--map("n", "<C-j>", "<cmd>cprev<CR>zz")
+--map("n", "<leader>k", "<cmd>lnext<CR>zz")
+--map("n", "<leader>j", "<cmd>lprev<CR>zz")
 
-vim.api.nvim_create_user_command(
-    "Cpp",
-    "!g++ -fsanitize=address -std=c++17 -DONPC -O2 -o %< % && ./%<",
-    { nargs = 0}
-)
-
-
+map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- map("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+-- map("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/pouya/remap.lua<CR>");
+-- map("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 
