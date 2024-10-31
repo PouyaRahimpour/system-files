@@ -3,80 +3,99 @@
 
 -- Only required if you have packer configured as `opt`
 vim.cmd.packadd("packer.nvim")
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+	return
+end
 
-return require('packer').startup(function(use)
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+packer.init {
+    display = {
+        open_fn = function()
+            return require("packer.util").float({border = "rounded"})
+        end,
+    },
+}
+return packer.startup(function(use)
+    use({'wbthomason/packer.nvim'})
+    ------------- toggleterm ---------------
+    use("akinsho/toggleterm.nvim")
 
-  use {
-	  'nvim-telescope/telescope.nvim', tag = '0.1.1',
-	-- or                            , branch = '0.1.x',
-	  requires = { {'nvim-lua/plenary.nvim'} }
-  }
-    --colorschemes--
+    ------------- telescope -----------------
     use({
-	'rose-pine/neovim',
-	as = 'rose-pine',
-	--config = function()
-	--require("rose-pine").setup()
-		--vim.cmd('colorscheme rose-pine')
-	--end
+        'nvim-telescope/telescope.nvim',
+        requires = { 
+            {'nvim-lua/plenary.nvim'},
+            {"BurntSushi/ripgrep"},
+            {"sharkdp/fd"}
+        }
+    })
+
+    ------------ colorschemes ----------------
+    use({ "ellisonleao/gruvbox.nvim" })
+    use({ "doums/darcula" })
+    use({
+        "loctvl842/monokai-pro.nvim",
+        config = function()
+            require("monokai-pro").setup()
+        end
+    })
+
+    use({
+        'morhetz/gruvbox',
+        config = function()
+            vim.cmd.colorscheme("gruvbox")
+        end
+    })
+
+    use({
+        'rose-pine/neovim',
+        as = 'rose-pine',
     })
     use({
         'RRethy/nvim-base16',
         as ='base16-colors',
-        --config = function ()
-            --require("base16-colors").setup()
-                --vim.cmd('colorscheme base16-onedark')
-        --end
     })
     use({
         'xiyaowong/transparent.nvim',
         as = 'transparent'
     })
-    --    --
 
+    ------------- treesitter --------------------
     use({'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'})
-
     use('nvim-treesitter/playground')
+
+    -------------- harpoon ----------------------
     use('theprimeagen/harpoon')
+
+    -------------- undotree ---------------------
     use('mbbill/undotree')
+
+    --------------- fugitive --------------------
     use('tpope/vim-fugitive')
 
-    use {
-      'VonHeikemen/lsp-zero.nvim',
-      branch = 'v1.x',
-      requires = {
-          -- LSP Support
-          {'neovim/nvim-lspconfig'},
-          {'williamboman/mason.nvim'},
-          {'williamboman/mason-lspconfig.nvim'},
+    ------------------ LSP ----------------------
+    -- Autocompletion
+    use {'hrsh7th/nvim-cmp'}
+    use {'hrsh7th/cmp-buffer'}
+    use {'hrsh7th/cmp-path'}
+    use {'saadparwaiz1/cmp_luasnip'}
+    use {'hrsh7th/cmp-nvim-lsp'}
+    use {'hrsh7th/cmp-nvim-lua'}
 
-          -- Autocompletion
-          {'hrsh7th/nvim-cmp'},
-          {'hrsh7th/cmp-buffer'},
-          {'hrsh7th/cmp-path'},
-          {'saadparwaiz1/cmp_luasnip'},
-          {'hrsh7th/cmp-nvim-lsp'},
-          {'hrsh7th/cmp-nvim-lua'},
+    -- Snippets
+    use {'L3MON4D3/LuaSnip'}
 
-          -- Snippets
-          {'L3MON4D3/LuaSnip'},
-          {'rafamadriz/friendly-snippets'},
-      }
-    }
+    use "neovim/nvim-lspconfig"
+    use "williamboman/nvim-lsp-installer"
 
-    use("folke/zen-mode.nvim")
-    use("github/copilot.vim")
-    use("eandrju/cellular-automaton.nvim")
-    -- vimtex --
+    ---------------- vimtex --------------------
     use "lervag/vimtex"
 
-    use({
-	"L3MON4D3/LuaSnip",
-	-- follow latest release.
-	tag = "v<CurrentMajor>.*",
-	run = "make install_jsregexp"
-    })
+    -------------------- cp --------------------
+    use {
+        'xeluxee/competitest.nvim',
+        requires = 'MunifTanjim/nui.nvim',
+        config = function() require('competitest').setup() end
+    }
 
 end)
