@@ -1,0 +1,6 @@
+--local stat_ok, _ = pcall(require, "lspconfig")
+--if not stat_ok then
+    --return
+--end
+--require("lsp.handlers").setup()
+--require("lsp.lsp").setup()
