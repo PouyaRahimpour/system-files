@@ -9,11 +9,12 @@ ls.add_snippets("cpp", {
         t({
             "/*",
             "beg",
-            "mod",
+            "mint",
             "bpow",
+            "Floor",
+            "Ceil",
             "seg",
             "bit",
-            "mint",
             "*/",
             "",
         })
@@ -22,50 +23,60 @@ ls.add_snippets("cpp", {
     s("beg", {
         t({
             "#include<bits/stdc++.h>",
-            "#ifndef LOCAL",
-            "#define LINE",
-            "#define fastio ios_base::sync_with_stdio(0);cin.tie(0);",
-            "#else",
-            "#define LINE cerr << \"----------\" << nl;",
-            "#define fastio",
-            "#endif",
             "using namespace std;",
-            "using ll = long long; using ld = long double;",
+            "using ll = long long;",
+            "using ld = long double;",
+            "#ifdef LOCAL",
+            "#include \"/home/pouya/debug.cpp\"",
+            "#else",
+            "#define dbg(...)",
+            "#define TC solve",
+            "#endif",
             "#define nl '\\n'",
-            "#define arr array",
-            "#define pb push_back",
-            "",
-            "",
+            "", "",
         }),
 
-        t({"void solve() {", "\t"}),
-        i(1, "//code here"),
+        t({ "void solve(int tc) {", "\t"}),
+        i(2, "//code here"),
         t({"", "}", "", ""}),
 
         t({
             "int32_t main() {",
-            "\tfastio",
+            "\tios_base::sync_with_stdio(false);",
+            "\tcin.tie(nullptr);",
             "\tint t = 1;",
-            "cin >> t;",
-            "\twhile (t--) {",
-            "\t\tsolve();",
-            "\t\tLINE",
+            "\t",
+        }),
+        i(1, "cin >> t;"),
+        t({ "",
+            "\tfor (int i=1; i<=t; i++) {",
+            "\t\tTC(i);",
             "\t}",
             "\treturn 0;",
             "}",
             "",
         })
     }),
-    s("mod", {
+
+    s("Floor", {
         t({
-            "const int MOD = 1e9+7;",
-            "void mod(ll& x) {",
-            "\tx = (x%MOD+MOD)%MOD;",
+            "auto Floor = [&] (int a, int b) {",
+            "\tassert(b > 0);",
+            "\treturn a>=0? a/b: a/b-1;",
             "}",
             "",
-        }),
-    }),
+        })
+    });
 
+    s("Ceil", {
+        t({
+            "auto Ceil = [&] (int a, int b) {",
+            "\tassert(b > 0);",
+            "\treturn a>=0? (a+b-1)/b: (a+b-1)/b+1;",
+            "}",
+            "",
+        })
+    });
 
     s("bpow", {
         t({"ll bpow(ll a, int p) {",
@@ -189,4 +200,3 @@ s("mint", {
 
 
 })
-

@@ -11,9 +11,11 @@ toggleterm.setup({
 	shade_filetypes = {},
 	shade_terminals = true,
 	shading_factor = 2,
-	start_in_insert = true,
 
-	insert_mappings = false, -- do not open term in insert mode when set to false
+	start_in_insert = false,
+	insert_mappings = true,
+    terminal_mappings = true,
+    auto_scroll = false, -- scrolls down when close and open
 
 	persist_size = true,
 	direction = "float", -- you can set to vertical or horizantal also
@@ -29,36 +31,40 @@ toggleterm.setup({
 	},
 })
 
-vim.keymap.set({"n", "v"}, "<leader>3", ":w<cr>:TermExec cmd='g++ -ggdb -std=c++17 -DLOCAL -O2 %:~ -o %:p:r && %:~:r < %:~:h/inp'<cr>")
+vim.keymap.set({"n", "v"}, "<leader>3", ":w<cr>:TermExec cmd='g++ -ggdb -std=c++20 -DLOCAL -O2 %:~ -o %:p:r && %:~:r < %:~:h/inp'<cr>")
 vim.keymap.set({"n", "v"}, "<leader>4", ":TermExec cmd='python3 -m IPython'<cr>")
 
---local Terminal = require("toggleterm.terminal").Terminal
---local cp = Terminal:new({ cmd = "g++ --version", hidden = true})
---function Cp()
-    --cp:toggle()
---end
 
---function _G.set_terminal_keymaps()
-  --local opts = {noremap = true}
-  --vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-t><C-n>]], opts)
-  --vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-t><C-n>]], opts)
-  --vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-t><C-n><C-W>h]], opts)
-  --vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-t><C-n><C-W>j]], opts)
-  --vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-t><C-n><C-W>k]], opts)
-  --vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-t><C-n><C-W>l]], opts)
---end
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
 
---vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
---
---local Terminal = require("toggleterm.terminal").Terminal
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+local Terminal = require("toggleterm.terminal").Terminal
+
+
+local cp = Terminal:new({ cmd = "g++ --version", hidden = true})
+function _CP_TOGGLE()
+    cp:toggle()
+end
+
+
 --local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
---
 --function _LAZYGIT_TOGGLE()
 	--lazygit:toggle()
 --end
---
+
+
 --local node = Terminal:new({ cmd = "node", hidden = true })
---
 --function _NODE_TOGGLE()
 	--node:toggle()
 --end
