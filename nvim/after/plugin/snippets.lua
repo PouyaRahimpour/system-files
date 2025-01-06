@@ -27,7 +27,7 @@ ls.add_snippets("cpp", {
             "using ll = long long;",
             "using ld = long double;",
             "#ifdef LOCAL",
-            "#include \"/home/pouya/debug.cpp\"",
+            "#include \"/home/pouya/dev/cp/lib/debug.cpp\"",
             "#else",
             "#define dbg(...)",
             "#define TC solve",
